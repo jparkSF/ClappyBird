@@ -1,7 +1,7 @@
 # ScreamBird (Javascript Game)
 
 ## Game Concept
-ScreamBird is an another version of [Flappy Bird](https://www.google.com/search?q=flappy+bird&oq=flappy+bird&aqs=chrome..69i57.5039j0j1&sourceid=chrome&ie=UTF-8).
+ScreamBird is another version of [Flappy Bird](https://www.google.com/search?q=flappy+bird&oq=flappy+bird&aqs=chrome..69i57.5039j0j1&sourceid=chrome&ie=UTF-8).
 However, the key difference of this game from the original version is to use audio device(built-in microphone) to simulate the touch function to keep the bird flying in the air.
 
 * This game will not work if user does not allow microphone access from the browser. 
