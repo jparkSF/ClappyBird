@@ -1,0 +1,40 @@
+{
+  "name": "clappybird",
+  "private": true,
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.5.6"
+  },
+  "description": "Clappy Bird Javascript Game App",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "webpack",
+    "webpack": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jparkSF/ClappyBird.git"
+  },
+  "engines": {
+    "node": "6.10.1",
+    "npm": "3.10.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jparkSF/ClappyBird/issues"
+  },
+  "homepage": "https://github.com/jparkSF/ClappyBird#readme",
+  "devDependencies": {
+    "uglify-js-brunch": "^2.10.0"
+  }
+}
