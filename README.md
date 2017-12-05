@@ -32,11 +32,6 @@ However, the key difference of this game from the original version is to use aud
 `board.js` will hand the logic for creating and updating DOM elements and background.
 `audio.js` will handle the audio logic and the creation of `AudioEvents` based on the input
 
-## Key Dev Point
-
-* The distance of the bird's each jump depends on the audio level that the user has input.
-* The louder the user screams, the higher the bird will fly within the range
-
 ## Implementation Timeline
 
 ### Day 1: 
