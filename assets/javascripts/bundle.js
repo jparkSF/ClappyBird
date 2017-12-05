@@ -70,7 +70,5 @@
 "use strict";
 
 
-console.log('insidesss');
-
 /***/ })
 /******/ ]);
