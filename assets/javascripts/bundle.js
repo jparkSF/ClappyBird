@@ -70,6 +70,11 @@
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.backgroundLoop = undefined;
+
 var _board = __webpack_require__(1);
 
 var _board2 = _interopRequireDefault(_board);
@@ -83,8 +88,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var board = new _board2.default();
 var bird = new _bird2.default();
 
-board.setup();
-bird.setup();
+var backgroundLoop = exports.backgroundLoop = function backgroundLoop() {
+
+  board.setup();
+  // bird.setup();
+};
+
+backgroundLoop();
 
 /***/ }),
 /* 1 */
@@ -99,6 +109,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _clappybird = __webpack_require__(0);
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Board = function () {
@@ -109,24 +121,68 @@ var Board = function () {
   _createClass(Board, [{
     key: 'setup',
     value: function setup() {
-      this.initBoard();
+      this.backgroundPos = 0;
+      this.foregroundPos = 0;
+      this.backgroundSpeed = 0.6;
+      this.foregroundSpeed = 0.6;
+      this.backgroundWidth = 350;
+
+      this.fillBoard();
+      this.loop();
     }
   }, {
-    key: 'initBoard',
-    value: function initBoard() {
-      var canvas = document.getElementById('canvas');
-      canvas.width = 350;
-      canvas.height = 600;
+    key: 'loop',
+    value: function loop() {
+      this.ctx.fillStyle = "#FFFFFF";
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.updatePosition();
+      this.render();
+    }
+  }, {
+    key: 'fillBoard',
+    value: function fillBoard() {
 
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = "#70C5CF";
-      ctx.fillRect(0, 0, 350, 600);
+      this.canvas = document.getElementById('canvas');
+      this.canvas.width = 350;
+      this.canvas.height = 600;
 
-      var background = document.getElementById('sheet');
-      ctx.drawImage(background, 0, 0, 275, 350, 0, 250, 350, 600);
+      this.ctx = this.canvas.getContext('2d');
+      // this.ctx.fillStyle = "#70C5CF";
+      this.ctx.fillRect(0, 0, 350, 600);
 
-      var foreground = document.getElementById('sheet');
-      ctx.drawImage(background, 276, 0, 223, 250, 0, 480, 350, 300);
+      this.backgroundSky = document.getElementById('sky');
+      this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
+
+      this.background = document.getElementById('sheet');
+      this.ctx.drawImage(this.background, 0, 0, 275, 350, 0, 250, 350, 600);
+
+      this.foreground = document.getElementById('sheet');
+      this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 480, 350, 300);
+    }
+  }, {
+    key: 'updatePosition',
+    value: function updatePosition() {
+
+      this.backgroundPos -= this.backgroundSpeed;
+      this.foregroundPos -= this.foregroundSpeed;
+      this.foregroundPos = this.foregroundPos % this.canvas.width;
+      if (this.backgroundPos < -this.backgroundWidth) {
+        this.backgroundPos = 0;
+      }
+
+      // if (this.foregroundPos < -this.backgroundWidth){
+      //   this.foregroundPos = 0;
+      // }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
+      for (var i = 0; i <= this.canvas.width / this.backgroundWidth + 1; i++) {
+        this.ctx.drawImage(this.background, 0, 0, 275, 350, this.backgroundPos + i * this.backgroundWidth, 250, this.backgroundWidth, 600);
+        this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + i * this.backgroundWidth, 482, this.backgroundWidth, 300);
+      }
+      window.requestAnimationFrame(this.loop.bind(this));
     }
   }]);
 

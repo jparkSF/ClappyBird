@@ -5,5 +5,16 @@ import Bird from './bird';
 const board = new Board();
 const bird = new Bird();
 
-board.setup();
-bird.setup();
+
+export const backgroundLoop = () => {
+  
+  board.setup();
+  // bird.setup();
+}
+
+
+
+backgroundLoop();
+
+
+
