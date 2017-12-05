@@ -9,7 +9,7 @@ const bird = new Bird();
 export const backgroundLoop = () => {
   
   board.setup();
-  // bird.setup();
+  bird.setup();
 }
 
 

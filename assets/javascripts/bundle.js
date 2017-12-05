@@ -91,7 +91,7 @@ var bird = new _bird2.default();
 var backgroundLoop = exports.backgroundLoop = function backgroundLoop() {
 
   board.setup();
-  // bird.setup();
+  bird.setup();
 };
 
 backgroundLoop();
@@ -109,8 +109,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _clappybird = __webpack_require__(0);
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Board = function () {
@@ -123,8 +121,8 @@ var Board = function () {
     value: function setup() {
       this.backgroundPos = 0;
       this.foregroundPos = 0;
-      this.backgroundSpeed = 0.6;
-      this.foregroundSpeed = 0.6;
+      this.backgroundSpeed = 0.7;
+      this.foregroundSpeed = 2;
       this.backgroundWidth = 350;
 
       this.fillBoard();
@@ -147,7 +145,7 @@ var Board = function () {
       this.canvas.height = 600;
 
       this.ctx = this.canvas.getContext('2d');
-      // this.ctx.fillStyle = "#70C5CF";
+
       this.ctx.fillRect(0, 0, 350, 600);
 
       this.backgroundSky = document.getElementById('sky');
@@ -158,6 +156,10 @@ var Board = function () {
 
       this.foreground = document.getElementById('sheet');
       this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 480, 350, 300);
+
+      // this.bird = document.getElementById('sheet');
+
+      // this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
   }, {
     key: 'updatePosition',
@@ -165,14 +167,22 @@ var Board = function () {
 
       this.backgroundPos -= this.backgroundSpeed;
       this.foregroundPos -= this.foregroundSpeed;
-      this.foregroundPos = this.foregroundPos % this.canvas.width;
+      // this.foregroundPos = this.foregroundPos % this.canvas.width
       if (this.backgroundPos < -this.backgroundWidth) {
         this.backgroundPos = 0;
       }
 
-      // if (this.foregroundPos < -this.backgroundWidth){
-      //   this.foregroundPos = 0;
-      // }
+      if (this.foregroundPos < -this.backgroundWidth) {
+        this.foregroundPos = 0;
+      }
+
+      var canvas = document.getElementById('canvas');
+
+      var ctx = canvas.getContext('2d');
+
+      var bird = document.getElementById('sheet');
+
+      // ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
   }, {
     key: 'render',
@@ -180,8 +190,13 @@ var Board = function () {
       this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
       for (var i = 0; i <= this.canvas.width / this.backgroundWidth + 1; i++) {
         this.ctx.drawImage(this.background, 0, 0, 275, 350, this.backgroundPos + i * this.backgroundWidth, 250, this.backgroundWidth, 600);
-        this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + i * this.backgroundWidth, 482, this.backgroundWidth, 300);
       }
+
+      for (var _i = 0; _i <= this.backgroundWidth / this.backgroundWidth + 1; _i++) {
+        this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + _i * this.backgroundWidth, 482, this.backgroundWidth, 300);
+      }
+
+      // this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
       window.requestAnimationFrame(this.loop.bind(this));
     }
   }]);
@@ -214,17 +229,15 @@ var Bird = function () {
   _createClass(Bird, [{
     key: 'setup',
     value: function setup() {
+
       this.initBird();
     }
   }, {
     key: 'initBird',
     value: function initBird() {
       var canvas = document.getElementById('canvas');
-
       var ctx = canvas.getContext('2d');
-
       var bird = document.getElementById('sheet');
-
       ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
   }]);
