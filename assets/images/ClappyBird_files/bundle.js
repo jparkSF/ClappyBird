@@ -74,17 +74,11 @@ var _board = __webpack_require__(1);
 
 var _board2 = _interopRequireDefault(_board);
 
-var _bird = __webpack_require__(2);
-
-var _bird2 = _interopRequireDefault(_bird);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var board = new _board2.default();
-var bird = new _bird2.default();
 
 board.setup();
-bird.setup();
 
 /***/ }),
 /* 1 */
@@ -115,18 +109,15 @@ var Board = function () {
     key: 'initBoard',
     value: function initBoard() {
       var canvas = document.getElementById('canvas');
-      canvas.width = 350;
+      canvas.width = window.innerWidth;
       canvas.height = 600;
 
       var ctx = canvas.getContext('2d');
-      ctx.fillStyle = "#70C5CF";
-      ctx.fillRect(0, 0, 350, 600);
+      // ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(50, 0, 200, 600);
 
-      var background = document.getElementById('sheet');
-      ctx.drawImage(background, 0, 0, 275, 350, 0, 250, 350, 600);
-
-      var foreground = document.getElementById('sheet');
-      ctx.drawImage(background, 276, 0, 223, 250, 0, 480, 350, 300);
+      var background = document.getElementById('background');
+      ctx.drawImage(background, 0, 0, 138, 120, 0, 0, 300, 300);
     }
   }]);
 
@@ -134,49 +125,6 @@ var Board = function () {
 }();
 
 exports.default = Board;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Bird = function () {
-  function Bird() {
-    _classCallCheck(this, Bird);
-  }
-
-  _createClass(Bird, [{
-    key: 'setup',
-    value: function setup() {
-      this.initBird();
-    }
-  }, {
-    key: 'initBird',
-    value: function initBird() {
-      var canvas = document.getElementById('canvas');
-
-      var ctx = canvas.getContext('2d');
-
-      var bird = document.getElementById('sheet');
-
-      ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
-    }
-  }]);
-
-  return Bird;
-}();
-
-exports.default = Bird;
 
 /***/ })
 /******/ ]);
