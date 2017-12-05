@@ -1,7 +1,11 @@
-# ScreamBird (Javascript Game)
+# ClappyBird (Javascript Game)
+
+## Wireframe
+![ClappyBrid](https://github.com/jparkSF/screambird/blob/master/wireframes/wireframe.png?raw=true)
+
 
 ## Game Concept
-ScreamBird is another version of [Flappy Bird](https://www.google.com/search?q=flappy+bird&oq=flappy+bird&aqs=chrome..69i57.5039j0j1&sourceid=chrome&ie=UTF-8).
+ClappyBird is another version of [Flappy Bird](https://www.google.com/search?q=flappy+bird&oq=flappy+bird&aqs=chrome..69i57.5039j0j1&sourceid=chrome&ie=UTF-8).
 However, the key difference of this game from the original version is to use audio device(built-in microphone) to simulate the touch function to keep the bird flying in the air.
 
 * This game will not work if user does not allow microphone access from the browser. 
@@ -9,9 +13,11 @@ However, the key difference of this game from the original version is to use aud
 
 ## Game Play
 
-* Once the game starts, the progress is the same as the original game.
-* User attempts to fly the bird between columns of green pipes without hitting them. 
-* As the bird travels furthur down, the difficulty of passing each oncoming pipes will get harder. 
+* The object of this game is to guide a flying bird
+* The bird flies continuously to the right between the pipes 
+* Player has to press key or click to flaps upward each time to precisely balance the bird in between the pipes
+* If the bird touches the ground or pipe, player loses.
+
 
 ## Architecture and Technologies
 
@@ -25,9 +31,6 @@ However, the key difference of this game from the original version is to use aud
 `bird.js` will contain the basic logic and movement of the bird object
 `board.js` will hand the logic for creating and updating DOM elements and background.
 `audio.js` will handle the audio logic and the creation of `AudioEvents` based on the input
-
-
-
 
 ## Key Dev Point
 
@@ -59,6 +62,13 @@ However, the key difference of this game from the original version is to use aud
 ### Day 5:
 - [ ] Final touch up
 - [ ] Debug if any
+
+
+## Minimum Viable Product
+- [ ] Basic graphic representation of the background
+- [ ] Proper rendering of moving objects(bird, pipes)
+- [ ] Listen to mouse click or key press to play
+- [ ] Time Score Board
 
 
 ## Expected Struggles in Dev
