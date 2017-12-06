@@ -14,6 +14,9 @@ class Board {
 
     this.pipeX = 350;
 
+    // recommended this.y values are betwee -270 to -50
+    this.pipeY = this.getRandomInt(-270, -50);
+
     this.canvas = document.getElementById('canvas');
     this.canvas.width = 350;
     this.canvas.height = 600;
@@ -23,7 +26,7 @@ class Board {
     this.ctx.fillRect(0, 0, 350, 600);
 
     
-    this.pipe1 = new Pipe(200,200,100, 5, this.ctx);
+    
 
     
 
@@ -113,13 +116,20 @@ class Board {
   }
 
   drawPipes(){
-    // recommended this.y values are betwee -270 to -50
-    // recommended this.x values are between -40 to 350
-    const pipeY = this.getRandomInt(-270,-50);
     
+    // recommended this.x values are between -40 to 350
+    this.pipe1 = new Pipe(200, 200, 100, 5, this.ctx);
+    this.pipe2 = new Pipe(200, 200, 100, 5, this.ctx);
+    this.pipe3 = new Pipe(200, 200, 100, 5, this.ctx);
+    const pipes = [this.pipe1, this.pipe2, this.pipe3];
     const pipeX = this.pipeX;
     
-    this.pipe1.draw(pipeY, pipeX, pipeY, this.ctx);
+    for(let i=0; i<pipes.length; i++){
+      pipes[i].draw(this.pipeY, pipeX, this.pipeY, this.ctx);
+    }
+    
+    
+    this.pipe1.draw(this.pipeY, pipeX, this.pipeY, this.ctx);
   }
 
   render() {

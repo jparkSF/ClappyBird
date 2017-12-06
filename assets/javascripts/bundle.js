@@ -139,14 +139,15 @@ var Board = function () {
 
       this.pipeX = 350;
 
+      // recommended this.y values are betwee -270 to -50
+      this.pipeY = this.getRandomInt(-270, -50);
+
       this.canvas = document.getElementById('canvas');
       this.canvas.width = 350;
       this.canvas.height = 600;
 
       this.ctx = this.canvas.getContext('2d');
       this.ctx.fillRect(0, 0, 350, 600);
-
-      this.pipe1 = new _pipe2.default(200, 200, 100, 5, this.ctx);
 
       this.fillBoard();
       this.loop();
@@ -227,13 +228,19 @@ var Board = function () {
   }, {
     key: 'drawPipes',
     value: function drawPipes() {
-      // recommended this.y values are betwee -270 to -50
-      // recommended this.x values are between -40 to 350
-      var pipeY = this.getRandomInt(-270, -50);
 
+      // recommended this.x values are between -40 to 350
+      this.pipe1 = new _pipe2.default(200, 200, 100, 5, this.ctx);
+      this.pipe2 = new _pipe2.default(200, 200, 100, 5, this.ctx);
+      this.pipe3 = new _pipe2.default(200, 200, 100, 5, this.ctx);
+      var pipes = [this.pipe1, this.pipe2, this.pipe3];
       var pipeX = this.pipeX;
 
-      this.pipe1.draw(pipeY, pipeX, pipeY, this.ctx);
+      for (var i = 0; i < pipes.length; i++) {
+        pipes[i].draw(this.pipeY, pipeX, this.pipeY, this.ctx);
+      }
+
+      this.pipe1.draw(this.pipeY, pipeX, this.pipeY, this.ctx);
     }
   }, {
     key: 'render',
