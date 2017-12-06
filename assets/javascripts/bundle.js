@@ -124,6 +124,8 @@ var Board = function () {
       this.backgroundSpeed = 0.7;
       this.foregroundSpeed = 2;
       this.backgroundWidth = 350;
+      this.birdPosY = 250;
+      this.freeFall = 7;
 
       this.fillBoard();
       this.loop();
@@ -131,9 +133,21 @@ var Board = function () {
   }, {
     key: 'loop',
     value: function loop() {
+      var _this = this;
+
       this.ctx.fillStyle = "#FFFFFF";
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // add eventlistener to boost the bird's position up
+      document.addEventListener('keypress', function (e) {
+        if (e.which === 32) {
+          _this.birdPosY -= 2.5;
+          // console.log(e.key)
+          console.log(_this.birdPosY);
+        }
+      });
       this.updatePosition();
+
       this.render();
     }
   }, {
@@ -145,29 +159,28 @@ var Board = function () {
       this.canvas.height = 600;
 
       this.ctx = this.canvas.getContext('2d');
-
       this.ctx.fillRect(0, 0, 350, 600);
 
+      // Drawing sky background
       this.backgroundSky = document.getElementById('sky');
       this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
-
+      // Drawing inner layer
       this.background = document.getElementById('sheet');
       this.ctx.drawImage(this.background, 0, 0, 275, 350, 0, 250, 350, 600);
-
+      // Drawing outter layer(top layer)
       this.foreground = document.getElementById('sheet');
       this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 480, 350, 300);
-
-      // this.bird = document.getElementById('sheet');
-
-      // this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
+      // drawing bird
+      this.bird = document.getElementById('sheet');
+      this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
     }
   }, {
     key: 'updatePosition',
     value: function updatePosition() {
-
       this.backgroundPos -= this.backgroundSpeed;
       this.foregroundPos -= this.foregroundSpeed;
-      // this.foregroundPos = this.foregroundPos % this.canvas.width
+      this.birdPosY += this.freeFall;
+
       if (this.backgroundPos < -this.backgroundWidth) {
         this.backgroundPos = 0;
       }
@@ -176,13 +189,7 @@ var Board = function () {
         this.foregroundPos = 0;
       }
 
-      var canvas = document.getElementById('canvas');
-
-      var ctx = canvas.getContext('2d');
-
-      var bird = document.getElementById('sheet');
-
-      // ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
+      this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
     }
   }, {
     key: 'render',
@@ -196,7 +203,7 @@ var Board = function () {
         this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + _i * this.backgroundWidth, 482, this.backgroundWidth, 300);
       }
 
-      // this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
+      this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
       window.requestAnimationFrame(this.loop.bind(this));
     }
   }]);
@@ -238,6 +245,7 @@ var Bird = function () {
       var canvas = document.getElementById('canvas');
       var ctx = canvas.getContext('2d');
       var bird = document.getElementById('sheet');
+
       ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
   }]);
