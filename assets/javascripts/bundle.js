@@ -109,6 +109,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _pipe = __webpack_require__(3);
+
+var _pipe2 = _interopRequireDefault(_pipe);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Board = function () {
@@ -126,18 +132,34 @@ var Board = function () {
       this.backgroundSpeed = 0.7;
       this.foregroundSpeed = 2;
       this.backgroundWidth = 350;
+      this.negativeG = -16;
+
       this.birdPosY = 250;
       this.freeFall = 0;
+
+      this.pipeX = 350;
+
+      this.canvas = document.getElementById('canvas');
+      this.canvas.width = 350;
+      this.canvas.height = 600;
+
+      this.ctx = this.canvas.getContext('2d');
+      this.ctx.fillRect(0, 0, 350, 600);
+
+      this.pipe1 = new _pipe2.default(200, 200, 100, 5, this.ctx);
 
       this.fillBoard();
       this.loop();
 
-      var self = this;
-
+      // add eventlistener to boost the bird's position up
       document.addEventListener('keypress', function (e) {
         if (e.which === 32) {
-          _this.freeFall = -16;
+          _this.freeFall = _this.negativeG;
         }
+      });
+
+      window.addEventListener('click', function (e) {
+        _this.freeFall = _this.negativeG;
       });
     }
   }, {
@@ -145,8 +167,6 @@ var Board = function () {
     value: function loop() {
       this.ctx.fillStyle = "#FFFFFF";
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-      // add eventlistener to boost the bird's position up
 
       this.updatePosition();
 
@@ -156,13 +176,6 @@ var Board = function () {
     key: 'fillBoard',
     value: function fillBoard() {
 
-      this.canvas = document.getElementById('canvas');
-      this.canvas.width = 350;
-      this.canvas.height = 600;
-
-      this.ctx = this.canvas.getContext('2d');
-      this.ctx.fillRect(0, 0, 350, 600);
-
       // Drawing sky background
       this.backgroundSky = document.getElementById('sky');
       this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
@@ -171,10 +184,12 @@ var Board = function () {
       this.ctx.drawImage(this.background, 0, 0, 275, 350, 0, 250, 350, 600);
       // Drawing outter layer(top layer)
       this.foreground = document.getElementById('sheet');
-      this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 480, 350, 300);
-      // drawing bird
+      this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 500, 350, 300);
+
+      // Drawing bird 
+
       this.bird = document.getElementById('sheet');
-      this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
+      this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
   }, {
     key: 'updatePosition',
@@ -183,6 +198,7 @@ var Board = function () {
       this.foregroundPos -= this.foregroundSpeed;
       this.freeFall += 1.25;
       this.birdPosY += this.freeFall;
+      this.pipeX -= 2;
 
       if (this.backgroundPos < -this.backgroundWidth) {
         this.backgroundPos = 0;
@@ -202,6 +218,24 @@ var Board = function () {
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
     }
   }, {
+    key: 'getRandomInt',
+    value: function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  }, {
+    key: 'drawPipes',
+    value: function drawPipes() {
+      // recommended this.y values are betwee -270 to -50
+      // recommended this.x values are between -40 to 350
+      var pipeY = this.getRandomInt(-270, -50);
+
+      var pipeX = this.pipeX;
+
+      this.pipe1.draw(pipeY, pipeX, pipeY, this.ctx);
+    }
+  }, {
     key: 'render',
     value: function render() {
       this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
@@ -210,11 +244,13 @@ var Board = function () {
       }
 
       for (var _i = 0; _i <= this.backgroundWidth / this.backgroundWidth + 1; _i++) {
-        this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + _i * this.backgroundWidth, 482, this.backgroundWidth, 300);
+        this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + _i * this.backgroundWidth, 500, this.backgroundWidth, 300);
       }
 
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
       window.requestAnimationFrame(this.loop.bind(this));
+
+      this.drawPipes();
     }
   }]);
 
@@ -244,19 +280,21 @@ var Bird = function () {
   }
 
   _createClass(Bird, [{
-    key: 'setup',
+    key: "setup",
     value: function setup() {
 
-      this.initBird();
+      // this.initBird();
+
     }
   }, {
-    key: 'initBird',
+    key: "initBird",
     value: function initBird() {
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
-      var bird = document.getElementById('sheet');
+      // const canvas = document.getElementById('canvas');
+      // const ctx = canvas.getContext('2d');
+      // const bird = document.getElementById('sheet');
 
-      ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
+      // this.ctx.drawImage(bird, 311, 230, 37, 24, 50, 200, 45, 30);
+
     }
   }]);
 
@@ -264,6 +302,59 @@ var Bird = function () {
 }();
 
 exports.default = Bird;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Pipe = function () {
+  function Pipe() {
+    _classCallCheck(this, Pipe);
+  }
+
+  _createClass(Pipe, [{
+    key: 'draw',
+    value: function draw(y, x, length, ctx) {
+      // recommended this.y values are betwee -270 to -50
+      this.y = y;
+      // recommended this.x values are between -40 to 350
+      this.x = x;
+      this.space = 500;
+      this.length = length;
+
+      this.ctx = ctx;
+
+      this.pipe = document.getElementById('sheet');
+
+      this.render();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
+      //top pipe
+      this.ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
+
+      //botton pipe
+      this.ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y + this.space, 40, 600);
+    }
+  }]);
+
+  return Pipe;
+}();
+
+exports.default = Pipe;
 
 /***/ })
 /******/ ]);
