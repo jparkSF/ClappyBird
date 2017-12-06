@@ -8,10 +8,19 @@ class Board {
     this.foregroundSpeed = 2;
     this.backgroundWidth = 350;
     this.birdPosY = 250;
-    this.freeFall = 7;
+    this.freeFall = 0;
 
     this.fillBoard();
     this.loop();
+
+    var self = this;
+
+    document.addEventListener('keypress', (e) => {
+      if (e.which === 32) {
+        this.freeFall = -16;
+
+      }
+    })
   }
 
   loop() {
@@ -19,13 +28,7 @@ class Board {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
     // add eventlistener to boost the bird's position up
-    document.addEventListener('keypress', (e) => {
-      if (e.which === 32) {
-        this.birdPosY -= 2.5;
-        // console.log(e.key)
-        console.log(this.birdPosY);
-      }
-    })
+   
     this.updatePosition();
 
     this.render();
@@ -59,7 +62,9 @@ class Board {
   updatePosition() {
     this.backgroundPos -= this.backgroundSpeed;
     this.foregroundPos -= this.foregroundSpeed;
+    this.freeFall += 1.25;
     this.birdPosY += this.freeFall;
+    
 
     if (this.backgroundPos < -this.backgroundWidth) {
       this.backgroundPos = 0;
@@ -68,6 +73,16 @@ class Board {
     if (this.foregroundPos < -this.backgroundWidth) {
       this.foregroundPos = 0;
     }
+
+    if (this.birdPosY >= this.canvas.height-30){
+      this.freeFall = 0;
+      this.birdPosY = this.canvas.height-30;
+      
+    } else if (this.birdPosY <= 0) {
+      this.birdPosY = 0
+    }
+
+    
 
     this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
 

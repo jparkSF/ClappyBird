@@ -119,33 +119,35 @@ var Board = function () {
   _createClass(Board, [{
     key: 'setup',
     value: function setup() {
+      var _this = this;
+
       this.backgroundPos = 0;
       this.foregroundPos = 0;
       this.backgroundSpeed = 0.7;
       this.foregroundSpeed = 2;
       this.backgroundWidth = 350;
       this.birdPosY = 250;
-      this.freeFall = 7;
+      this.freeFall = 0;
 
       this.fillBoard();
       this.loop();
+
+      var self = this;
+
+      document.addEventListener('keypress', function (e) {
+        if (e.which === 32) {
+          _this.freeFall = -16;
+        }
+      });
     }
   }, {
     key: 'loop',
     value: function loop() {
-      var _this = this;
-
       this.ctx.fillStyle = "#FFFFFF";
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
       // add eventlistener to boost the bird's position up
-      document.addEventListener('keypress', function (e) {
-        if (e.which === 32) {
-          _this.birdPosY -= 2.5;
-          // console.log(e.key)
-          console.log(_this.birdPosY);
-        }
-      });
+
       this.updatePosition();
 
       this.render();
@@ -179,6 +181,7 @@ var Board = function () {
     value: function updatePosition() {
       this.backgroundPos -= this.backgroundSpeed;
       this.foregroundPos -= this.foregroundSpeed;
+      this.freeFall += 1.25;
       this.birdPosY += this.freeFall;
 
       if (this.backgroundPos < -this.backgroundWidth) {
@@ -187,6 +190,13 @@ var Board = function () {
 
       if (this.foregroundPos < -this.backgroundWidth) {
         this.foregroundPos = 0;
+      }
+
+      if (this.birdPosY >= this.canvas.height - 30) {
+        this.freeFall = 0;
+        this.birdPosY = this.canvas.height - 30;
+      } else if (this.birdPosY <= 0) {
+        this.birdPosY = 0;
       }
 
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
