@@ -146,8 +146,7 @@ var Board = function () {
       this.ctx = this.canvas.getContext('2d');
       this.ctx.fillRect(0, 0, 350, 600);
 
-      var pipe = new _pipe2.default();
-      this.pipes = [pipe];
+      this.pipes = [];
       var that = this;
 
       this.collided = false;
@@ -258,9 +257,19 @@ var Board = function () {
     key: 'checkCollision',
     value: function checkCollision(pipe) {
 
-      if (this.birdPosY < 370 + pipe.y && pipe.x < 95) {
-        this.collided = true;
-      }
+      // if ((this.birdPosY < 370+pipe.y) && (pipe.x < 95)){
+      //   // this.collided = true;
+      //   console.log('==============')  
+      //   console.log('bird position x: ',95);
+      //     console.log('bird position y: ',this.birdPosY);
+      //   console.log('----------------')
+      //   console.log('pipe position x: ', pipe.x);
+      //     console.log('pipe position y: ',270+pipe.y);
+      //     console.log('==============')
+
+      // } else {
+
+      // }
       // if ((this.birdPosY+30 > 370-pipe.y+500 ) && (pipe.x < 95)){
       //   this.collided = true;
       // }
@@ -334,7 +343,8 @@ var Pipe = function () {
     // recommended this.x values are between -40 to 350
 
     this.y = this.getRandomInt(-300, -100);
-    this.x = 450; //starting point offset screen
+
+    this.x = 400; //starting point offset screen
     this.space = 500; //space between top and bottom of same col
     this.pipe = document.getElementById('sheet');
     this.dX = x;

@@ -4,7 +4,8 @@ class Pipe{
     // recommended this.x values are between -40 to 350
     
     this.y = this.getRandomInt(-300, -100);
-    this.x = 450; //starting point offset screen
+    
+    this.x = 400; //starting point offset screen
     this.space = 500; //space between top and bottom of same col
     this.pipe = document.getElementById('sheet');
     this.dX = x

@@ -24,8 +24,8 @@ class Board {
     this.ctx = this.canvas.getContext('2d');
     this.ctx.fillRect(0, 0, 350, 600);
     
-    const pipe = new Pipe();
-    this.pipes = [pipe];
+    
+    this.pipes = [];
     const that = this;
 
     this.collided = false;
@@ -144,11 +144,19 @@ class Board {
 
   checkCollision(pipe){
     
-    if ((this.birdPosY < 370+pipe.y) && (pipe.x < 95)){
-      this.collided = true;
-        
+    // if ((this.birdPosY < 370+pipe.y) && (pipe.x < 95)){
+    //   // this.collided = true;
+    //   console.log('==============')  
+    //   console.log('bird position x: ',95);
+    //     console.log('bird position y: ',this.birdPosY);
+    //   console.log('----------------')
+    //   console.log('pipe position x: ', pipe.x);
+    //     console.log('pipe position y: ',270+pipe.y);
+    //     console.log('==============')
     
-    }
+    // } else {
+     
+    // }
     // if ((this.birdPosY+30 > 370-pipe.y+500 ) && (pipe.x < 95)){
     //   this.collided = true;
     // }
