@@ -1,19 +1,12 @@
 class Pipe{
-  constructor(ctx){
-    // recommended this.y values are betwee -270 to -50
-
+  constructor(){
+    // recommended this.y values are betwee -270 to -75
     // recommended this.x values are between -40 to 350
-    this.y = this.getRandomInt(-270, -50);
+    
+    this.y = this.getRandomInt(-270, -75);
     this.x = 450;
     this.space = 550;
-
-    this.ctx = ctx;
-
     this.pipe = document.getElementById('sheet');
-
-    
-    
-
   }
  
 
@@ -26,8 +19,7 @@ class Pipe{
 
   update(){
     this.x -= 2;
-    console.log(this.x);
-    
+    console.log(this.x); 
   }
 
   render(ctx){

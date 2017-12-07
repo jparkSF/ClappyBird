@@ -21,25 +21,16 @@ class Board {
     this.canvas.width = 350;
     this.canvas.height = 600;
 
-
     this.ctx = this.canvas.getContext('2d');
     this.ctx.fillRect(0, 0, 350, 600);
-
-    // const pipe = new Pipe(200, 200, 100, 5, this.ctx);
     
     const pipe = new Pipe();
     this.pipes = [pipe];
-
-   
     const that = this;
 
     setInterval(function(){
-      // console.log(that.ctx);
-      const pipe = new Pipe(that.ctx);
-      // console.log(pipe);
+      const pipe = new Pipe();
       that.pipes.push(pipe);
-      
-      // pipe.draw(that.getRandomInt(), that.pipeX, that.pipeY, that.ctx);
     },this.frequency)
 
     this.fillBoard();
@@ -64,17 +55,11 @@ class Board {
     this.ctx.fillStyle = "#FFFFFF";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    
-   
     this.updatePosition();
-
     this.render();
   }
 
   fillBoard() {
-
-    
-
     // Drawing sky background
     this.backgroundSky = document.getElementById('sky');
     this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
@@ -115,21 +100,13 @@ class Board {
       this.birdPosY = 0
     }
 
-    
-    
-    this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
-
-   
+    this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);   
   }
 
   drawPipes(){
-
     const that = this;
-    console.log(this.pipes.length);
 
     this.pipes.forEach(function(pipe){
-       
-      
       pipe.update();
       pipe.render(that.ctx);
   

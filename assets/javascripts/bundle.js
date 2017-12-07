@@ -79,18 +79,15 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Pipe = function () {
-  function Pipe(ctx) {
+  function Pipe() {
     _classCallCheck(this, Pipe);
 
-    // recommended this.y values are betwee -270 to -50
-
+    // recommended this.y values are betwee -270 to -75
     // recommended this.x values are between -40 to 350
-    this.y = this.getRandomInt(-270, -50);
+
+    this.y = this.getRandomInt(-270, -75);
     this.x = 450;
     this.space = 550;
-
-    this.ctx = ctx;
-
     this.pipe = document.getElementById('sheet');
   }
 
@@ -212,20 +209,13 @@ var Board = function () {
       this.ctx = this.canvas.getContext('2d');
       this.ctx.fillRect(0, 0, 350, 600);
 
-      // const pipe = new Pipe(200, 200, 100, 5, this.ctx);
-
       var pipe = new _pipe2.default();
       this.pipes = [pipe];
-
       var that = this;
 
       setInterval(function () {
-        // console.log(that.ctx);
-        var pipe = new _pipe2.default(that.ctx);
-        // console.log(pipe);
+        var pipe = new _pipe2.default();
         that.pipes.push(pipe);
-
-        // pipe.draw(that.getRandomInt(), that.pipeX, that.pipeY, that.ctx);
       }, this.frequency);
 
       this.fillBoard();
@@ -249,13 +239,11 @@ var Board = function () {
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
       this.updatePosition();
-
       this.render();
     }
   }, {
     key: 'fillBoard',
     value: function fillBoard() {
-
       // Drawing sky background
       this.backgroundSky = document.getElementById('sky');
       this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
@@ -298,12 +286,9 @@ var Board = function () {
   }, {
     key: 'drawPipes',
     value: function drawPipes() {
-
       var that = this;
-      console.log(this.pipes.length);
 
       this.pipes.forEach(function (pipe) {
-
         pipe.update();
         pipe.render(that.ctx);
       });
