@@ -11,7 +11,7 @@
       }
       canvas {
         display: block;
-        margin-top: 100px !important;
+        margin-top: 50px !important;
         height: 100%;
         margin: auto;
         top: 0;
@@ -22,14 +22,31 @@
       img{
         display:none;
       }
+      .main{
+        width: 80% !important;
+        margin: auto;
+
+      }
+
+      @media screen and (max-width: 420px) {
+        canvas{
+          margin: auto;
+          width: 100%;
+        }
+        .main {
+          width: 85% !important;
+          margin: auto;
+        }
+      }
     </style>
   
   </head>
   
   <body>
 
-
-    <canvas id='canvas'></canvas>
+    <div class="main">
+      <canvas id='canvas'></canvas>
+    </div>
     <img src="./assets/images/sky_blue_bg.png" id="sky">
     <img src="./assets/images/sheet.png" id="sheet">
     <script src="./assets/javascripts/bundle.js"> </script>    

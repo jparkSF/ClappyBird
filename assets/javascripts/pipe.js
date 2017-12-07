@@ -1,12 +1,16 @@
 class Pipe{
-  constructor(){
+  constructor(x = 3){
     // recommended this.y values are betwee -270 to -75
     // recommended this.x values are between -40 to 350
     
     this.y = this.getRandomInt(-300, -100);
-    this.x = 450;
-    this.space = 550;
+    this.x = 450; //starting point offset screen
+    this.space = 500; //space between top and bottom of same col
     this.pipe = document.getElementById('sheet');
+    this.dX = x
+
+ 
+    
   }
  
 
@@ -18,13 +22,20 @@ class Pipe{
 
 
   update(){
-    this.x -= 2;
+    this.x -= this.dX;
+
+
+
+
+
   }
+ 
 
   render(ctx){
+    //top pipe
     ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
-
-    //botton pipe
+  
+    //bottom pipe
     ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y+this.space, 40, 600);
   }
 }
