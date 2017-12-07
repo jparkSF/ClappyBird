@@ -7,15 +7,14 @@ class Board {
     this.backgroundSpeed = 0.7;
     this.foregroundSpeed = 2;
     this.backgroundWidth = 350;
+    this.gravity = 0.75; //deafult G is 0.75
     this.negativeG = -10;
     this.frequency = 1500;
     this.birdPosY = 250;
     this.freeFall = 0;
-
     this.pipeX = 350;
-
-    // recommended this.y values are betwee -270 to -50
- 
+    this.frames = 0;
+    this.spriteIndex = 0;
 
     this.canvas = document.getElementById('canvas');
     this.canvas.width = 350;
@@ -31,6 +30,7 @@ class Board {
     setInterval(function(){
       const pipe = new Pipe();
       that.pipes.push(pipe);
+      // console.log('# of elements in pipes array: ',that.pipes.length);
     },this.frequency)
 
     this.fillBoard();
@@ -79,10 +79,9 @@ class Board {
   updatePosition() {
     this.backgroundPos -= this.backgroundSpeed;
     this.foregroundPos -= this.foregroundSpeed;
-    this.freeFall += 0.75;
+    this.freeFall += this.gravity;
     this.birdPosY += this.freeFall;
-    
-    
+    const xOffset = 127;
 
     if (this.backgroundPos < -this.backgroundWidth) {
       this.backgroundPos = 0;
@@ -92,9 +91,9 @@ class Board {
       this.foregroundPos = 0;
     }
 
-    if (this.birdPosY >= this.canvas.height-30){
+    if (this.birdPosY >= this.canvas.height-xOffset){
       this.freeFall = 0;
-      this.birdPosY = this.canvas.height-30;
+      this.birdPosY = this.canvas.height-xOffset;
       
     } else if (this.birdPosY <= 0) {
       this.birdPosY = 0
@@ -109,11 +108,12 @@ class Board {
     this.pipes.forEach(function(pipe){
       pipe.update();
       pipe.render(that.ctx);
-  
-    })
+    })    
   }
 
   render() {
+    this.frames++;
+    
     this.ctx.drawImage(this.backgroundSky, 0, 0, 350, 400);
     for (let i = 0; i <= this.canvas.width / this.backgroundWidth + 1; i++) {
       this.ctx.drawImage(this.background, 0, 0, 275, 350, this.backgroundPos + i * this.backgroundWidth, 250, this.backgroundWidth, 600);
@@ -125,7 +125,26 @@ class Board {
       this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + i * this.backgroundWidth, 500, this.backgroundWidth, 300);
     }
 
-    this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
+    if (this.frames % 15 === 0) {
+      
+      this.spriteIndex = (this.spriteIndex + 1) % 3;
+    }
+    
+    
+    // 311,230(up)  311,256(mid)  311,282(down)
+    switch(this.spriteIndex){
+      case 0:
+        this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
+        break;
+      case 1:
+        this.ctx.drawImage(this.bird, 311, 256, 37, 24, 50, this.birdPosY, 45, 30);
+        break;
+      case 2:
+        this.ctx.drawImage(this.bird, 311, 282, 37, 24, 50, this.birdPosY, 45, 30);
+        break;
+
+    }
+    
     window.requestAnimationFrame(this.loop.bind(this));  
   }
 }

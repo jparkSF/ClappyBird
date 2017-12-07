@@ -6,8 +6,7 @@ const board = new Board();
 const bird = new Bird();
 
 
-export const backgroundLoop = () => {
-  
+const backgroundLoop = () => {
   board.setup();
   bird.setup();
 }
@@ -15,6 +14,8 @@ export const backgroundLoop = () => {
 
 
 backgroundLoop();
+
+
 
 
 
