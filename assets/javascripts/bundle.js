@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,13 +73,76 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Pipe = function () {
+  function Pipe(ctx) {
+    _classCallCheck(this, Pipe);
+
+    // recommended this.y values are betwee -270 to -50
+
+    // recommended this.x values are between -40 to 350
+    this.y = this.getRandomInt(-270, -50);
+    this.x = 450;
+    this.space = 550;
+
+    this.ctx = ctx;
+
+    this.pipe = document.getElementById('sheet');
+  }
+
+  _createClass(Pipe, [{
+    key: 'getRandomInt',
+    value: function getRandomInt() {
+      var min = Math.ceil(-270);
+      var max = Math.floor(-50);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  }, {
+    key: 'update',
+    value: function update() {
+      this.x -= 2;
+      console.log(this.x);
+    }
+  }, {
+    key: 'render',
+    value: function render(ctx) {
+      // console.log(this.x);
+      //top pipe
+
+
+      ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
+
+      //botton pipe
+      ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y + this.space, 40, 600);
+    }
+  }]);
+
+  return Pipe;
+}();
+
+exports.default = Pipe;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.backgroundLoop = undefined;
 
-var _board = __webpack_require__(1);
+var _board = __webpack_require__(2);
 
 var _board2 = _interopRequireDefault(_board);
 
-var _bird = __webpack_require__(2);
+var _bird = __webpack_require__(3);
 
 var _bird2 = _interopRequireDefault(_bird);
 
@@ -97,7 +160,7 @@ var backgroundLoop = exports.backgroundLoop = function backgroundLoop() {
 backgroundLoop();
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -109,7 +172,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _pipe = __webpack_require__(3);
+var _pipe = __webpack_require__(0);
 
 var _pipe2 = _interopRequireDefault(_pipe);
 
@@ -132,15 +195,15 @@ var Board = function () {
       this.backgroundSpeed = 0.7;
       this.foregroundSpeed = 2;
       this.backgroundWidth = 350;
-      this.negativeG = -16;
-
+      this.negativeG = -10;
+      this.frequency = 1500;
       this.birdPosY = 250;
       this.freeFall = 0;
 
       this.pipeX = 350;
 
       // recommended this.y values are betwee -270 to -50
-      this.pipeY = this.getRandomInt(-270, -50);
+
 
       this.canvas = document.getElementById('canvas');
       this.canvas.width = 350;
@@ -148,6 +211,22 @@ var Board = function () {
 
       this.ctx = this.canvas.getContext('2d');
       this.ctx.fillRect(0, 0, 350, 600);
+
+      // const pipe = new Pipe(200, 200, 100, 5, this.ctx);
+
+      var pipe = new _pipe2.default();
+      this.pipes = [pipe];
+
+      var that = this;
+
+      setInterval(function () {
+        // console.log(that.ctx);
+        var pipe = new _pipe2.default(that.ctx);
+        // console.log(pipe);
+        that.pipes.push(pipe);
+
+        // pipe.draw(that.getRandomInt(), that.pipeX, that.pipeY, that.ctx);
+      }, this.frequency);
 
       this.fillBoard();
       this.loop();
@@ -188,7 +267,6 @@ var Board = function () {
       this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 500, 350, 300);
 
       // Drawing bird 
-
       this.bird = document.getElementById('sheet');
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
     }
@@ -197,9 +275,8 @@ var Board = function () {
     value: function updatePosition() {
       this.backgroundPos -= this.backgroundSpeed;
       this.foregroundPos -= this.foregroundSpeed;
-      this.freeFall += 1.25;
+      this.freeFall += 0.75;
       this.birdPosY += this.freeFall;
-      this.pipeX -= 2;
 
       if (this.backgroundPos < -this.backgroundWidth) {
         this.backgroundPos = 0;
@@ -219,28 +296,17 @@ var Board = function () {
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
     }
   }, {
-    key: 'getRandomInt',
-    value: function getRandomInt(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-  }, {
     key: 'drawPipes',
     value: function drawPipes() {
 
-      // recommended this.x values are between -40 to 350
-      this.pipe1 = new _pipe2.default(200, 200, 100, 5, this.ctx);
-      this.pipe2 = new _pipe2.default(200, 200, 100, 5, this.ctx);
-      this.pipe3 = new _pipe2.default(200, 200, 100, 5, this.ctx);
-      var pipes = [this.pipe1, this.pipe2, this.pipe3];
-      var pipeX = this.pipeX;
+      var that = this;
+      console.log(this.pipes.length);
 
-      for (var i = 0; i < pipes.length; i++) {
-        pipes[i].draw(this.pipeY, pipeX, this.pipeY, this.ctx);
-      }
+      this.pipes.forEach(function (pipe) {
 
-      this.pipe1.draw(this.pipeY, pipeX, this.pipeY, this.ctx);
+        pipe.update();
+        pipe.render(that.ctx);
+      });
     }
   }, {
     key: 'render',
@@ -250,14 +316,14 @@ var Board = function () {
         this.ctx.drawImage(this.background, 0, 0, 275, 350, this.backgroundPos + i * this.backgroundWidth, 250, this.backgroundWidth, 600);
       }
 
+      this.drawPipes();
+
       for (var _i = 0; _i <= this.backgroundWidth / this.backgroundWidth + 1; _i++) {
         this.ctx.drawImage(this.foreground, 277, 0, 222, 252, this.foregroundPos + _i * this.backgroundWidth, 500, this.backgroundWidth, 300);
       }
 
       this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);
       window.requestAnimationFrame(this.loop.bind(this));
-
-      this.drawPipes();
     }
   }]);
 
@@ -267,7 +333,7 @@ var Board = function () {
 exports.default = Board;
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -309,59 +375,6 @@ var Bird = function () {
 }();
 
 exports.default = Bird;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Pipe = function () {
-  function Pipe() {
-    _classCallCheck(this, Pipe);
-  }
-
-  _createClass(Pipe, [{
-    key: 'draw',
-    value: function draw(y, x, length, ctx) {
-      // recommended this.y values are betwee -270 to -50
-      this.y = y;
-      // recommended this.x values are between -40 to 350
-      this.x = x;
-      this.space = 500;
-      this.length = length;
-
-      this.ctx = ctx;
-
-      this.pipe = document.getElementById('sheet');
-
-      this.render();
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-
-      //top pipe
-      this.ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
-
-      //botton pipe
-      this.ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y + this.space, 40, 600);
-    }
-  }]);
-
-  return Pipe;
-}();
-
-exports.default = Pipe;
 
 /***/ })
 /******/ ]);

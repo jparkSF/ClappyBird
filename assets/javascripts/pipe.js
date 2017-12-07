@@ -1,29 +1,44 @@
 class Pipe{
-  draw(y,x,length,ctx){
+  constructor(ctx){
     // recommended this.y values are betwee -270 to -50
-    this.y = y;
+
     // recommended this.x values are between -40 to 350
-    this.x = x;
-    this.space = 500;
-    this.length = length;
-    
+    this.y = this.getRandomInt(-270, -50);
+    this.x = 450;
+    this.space = 550;
+
     this.ctx = ctx;
 
+    this.pipe = document.getElementById('sheet');
 
     
-    this.pipe = document.getElementById('sheet');
     
-    this.render();
 
   }
+ 
 
-  render(){
+  getRandomInt() {
+    const min = Math.ceil(-270);
+    const max = Math.floor(-50);
+    return Math.floor(Math.random() * (max - min)) + min
+  }
 
+
+  update(){
+    this.x -= 2;
+    console.log(this.x);
+    
+  }
+
+  render(ctx){
+    // console.log(this.x);
     //top pipe
-    this.ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
+
+
+    ctx.drawImage(this.pipe, 554, 0, 52, 650, this.x, this.y, 40, 600);
 
     //botton pipe
-    this.ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y+this.space, 40, 600);
+    ctx.drawImage(this.pipe, 502, 0, 52, 650, this.x, this.y+this.space, 40, 600);
     
     
   }
