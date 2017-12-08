@@ -1,5 +1,5 @@
 class Pipe{
-  constructor(x = 3){
+  constructor(x){
     // recommended this.y values are betwee -270 to -75
     // recommended this.x values are between -40 to 350
     
@@ -7,7 +7,7 @@ class Pipe{
     
     this.x = 400; //starting point offset screen
     this.space = 500; //space between top and bottom of same col
-    this.pipe = document.getElementById('sheet');
+     this.pipe = document.getElementById('sheet');
     this.dX = x
 
  

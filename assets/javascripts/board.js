@@ -3,6 +3,7 @@ import P5Lib from './p5/p5.sound.js';
 
 class Board {
   setup() {
+    const that = this;
     this.backgroundPos = 0;
     this.foregroundPos = 0;
     this.backgroundSpeed = 0.7;
@@ -11,6 +12,7 @@ class Board {
     this.gravity = 1; //deafult G is 0.75
     this.negativeG = -10;
     this.frequency = 1000;
+    this.dX = 0; //deafult dX is 3
     this.birdPosY = 250;
     this.freeFall = 0;
     this.pipeX = 350;
@@ -18,22 +20,22 @@ class Board {
     this.spriteIndex = 0;
 
     this.canvas = document.getElementById('canvas');
+    this.background = document.getElementById('sheet');
     this.canvas.width = 400;
     this.canvas.height = 600;
 
     this.ctx = this.canvas.getContext('2d');
     this.ctx.fillRect(0, 0, 350, 600);
     
-    
     this.pipes = [];
-    const that = this;
 
     this.collided = false;
-
+    this.intervalHandle = null;
+    this.init = null;
     
-
-    setInterval(function(){
-      const pipe = new Pipe();
+    
+    this.intervalHandle = setInterval(function(){
+      const pipe = new Pipe(that.dX);
      
 
       that.pipes.push(pipe);
@@ -43,21 +45,22 @@ class Board {
       }
       // console.log('# of elements in pipes array: ',that.pipes.length);
     },this.frequency)
+  
 
-    this.fillBoard();
-    this.loop();
+
+    
+    
 
 
     // add eventlistener to boost the bird's position up
     document.addEventListener('keypress', e => {
-      if (e.which === 32) {
+      if (e.which === 32) { 
         this.freeFall = this.negativeG;
         
       }
     })
 
     // add eventlistener to boost the bird's position up
-  
     window.addEventListener('click', e => {
       this.freeFall = this.negativeG; 
     })
@@ -67,9 +70,9 @@ class Board {
       this.freeFall = this.negativeG;
     })
 
+   
     
-    
-    
+    this.fillBoard();
   }
 
   loop() {
@@ -91,14 +94,31 @@ class Board {
     this.ctx.drawImage(this.backgroundSky, 0, 0, 400, 400);
     // Drawing inner layer
     this.background = document.getElementById('sheet');
-    this.ctx.drawImage(this.background, 0, 0, 275, 350, 0, 250, 350, 600);
+    this.ctx.drawImage(this.background, 0, 0, 275, 350, 0, 250, 400, 600);
     // Drawing outter layer(top layer)
     this.foreground = document.getElementById('sheet');
-    this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 500, 350, 300);
+    this.ctx.drawImage(this.foreground, 277, 0, 222, 252, 0, 500, 400, 300);
 
     // Drawing bird 
     this.bird = document.getElementById('sheet');
     this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
+    
+    this.ctx.drawImage(this.background, 118, 229, 190, 40, this.canvas.width / 2 - 130, this.canvas.height / 2 - 60, 260, 80);
+    this.ctx.drawImage(this.background, 0, 229, 117, 100, this.canvas.width / 2 - 75, this.canvas.height / 2 + 50, 150, 150);
+    const that = this;
+    
+      document.addEventListener('keypress', e => {
+        if (e.which === 115){
+          that.dX = 3;
+          that.loop();
+        }
+
+      })
+      
+    
+    
+    
+
 
   }
 
@@ -125,46 +145,13 @@ class Board {
       this.birdPosY = 0
     }
 
-      // console.log(this.birdPosY);
+
 
     this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, this.birdPosY, 45, 30);   
   }
 
   drawPipes(){
-    const that = this;
-
-    // const pipe = this.pipes[this.pipes.length - 1];
-
-    
-      // pipe.update();
-      // pipe.render(that.ctx);
-    
-    // console.log(this.pipes);
-    
-      
-    
-    // console.log(pipe);
-    // if (pipe !== undefined){
-    //   pipe.update();
-    //   pipe.render(that.ctx);
-    //   if (this.pipes.length > 3) {
-     
-    //     that.pipes.shift();
-    //   }
-      // console.log(pipe);
-
-    
-    
-
-      
-    
-    // console.log(pipe);
-    // pipe.update();
-    // pipe.render();
-      // pipe.update();
-      // pipe.render(that.ctx);
-      // console.log(that.pipes);
-    
+    const that = this; 
 
       this.pipes.forEach(function(pipe){
         
@@ -174,13 +161,10 @@ class Board {
         that.checkCollision(pipe);
         if (that.collided === true) {
           pipe.dX = 0;
+          clearInterval(that.intervalHandle)
+          that.handleCollision();
         }
-
-   
-        
-      })
-
-   
+      })   
     }
 
   checkCollision(pipe){
@@ -189,19 +173,15 @@ class Board {
       (pipe.x <= 95 && pipe.x+40 >= 50 && this.birdPosY < 370 + pipe.y)){
       this.collided = true;
     }
-      // console.log('==============')  
-      // console.log('bird position x: ',95);
-      //   console.log('bird position y: ',this.birdPosY);
-      // console.log('----------------')
-      // console.log('pipe position x: ', pipe.x);
-      //   console.log('pipe position y: ',270+pipe.y);
-      //   console.log('==============')
-    
 
-    // if (((this.birdPosY + 30 > 370 + pipe.y) && (pipe.x < 95)) &&
-    //   (pipe.x <= 95 && pipe.x + 40 >= 50 && this.birdPosY < 370 + pipe.y)) {
-    //   this.collided = true;
-    // }
+    if (((this.birdPosY+30 > 370 + pipe.y + 130) && (pipe.x < 95)) &&
+      ((pipe.x <= 95 && pipe.x + 40 >= 50 && this.birdPosY > 370 + pipe.y + 130))) {
+      this.collided = true;      
+    }
+   }
+
+   handleCollision(){  
+     this.ctx.drawImage(this.background, 118, 273 , 190, 36, this.canvas.width/2-130, this.canvas.height/2 - 40, 260,80);
    }
 
   render() {
@@ -239,7 +219,9 @@ class Board {
 
     }
     
+
     window.requestAnimationFrame(this.loop.bind(this));  
+    
   }
 }
 
