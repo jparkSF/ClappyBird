@@ -48,14 +48,14 @@ class Board {
 
     }
 
-    const context = new AudioContext();
+    // const context = new AudioContext();
 
-    if (navigator.getUserMedia) {
-      navigator.getUserMedia({ audio: true },function(e){ 
+    // if (navigator.getUserMedia) {
+    //   navigator.getUserMedia({ audio: true },function(e){ 
         
         
-        const filter = context.createBiquadFilter();
-        that.microphone = context.createMediaStreamSource(e);
+        // const filter = context.createBiquadFilter();
+        // that.microphone = context.createMediaStreamSource(e);
 
         // const meter = createAudioMeter(context)
 
@@ -63,8 +63,8 @@ class Board {
         
 
         // microphone -> filter -> destination.
-        that.microphone.connect(filter);
-        filter.connect(context.destination);
+        // that.microphone.connect(filter);
+        // filter.connect(context.destination);
 
         // console.log(that.microphone);
 
@@ -72,12 +72,12 @@ class Board {
 
       
 
-    }, function (e) {
-        alert('Error capturing audio.');
-      });
-    } else {
-      alert('getUserMedia not supported in this browser.');
-    }
+    // }, function (e) {
+    //     alert('Error capturing audio.');
+    //   });
+    // } else {
+    //   alert('getUserMedia not supported in this browser.');
+    // }
 
 
 

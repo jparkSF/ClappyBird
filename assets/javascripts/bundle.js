@@ -164,31 +164,34 @@ var Board = function () {
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
       }
 
-      var context = new AudioContext();
+      // const context = new AudioContext();
 
-      if (navigator.getUserMedia) {
-        navigator.getUserMedia({ audio: true }, function (e) {
-
-          var filter = context.createBiquadFilter();
-          that.microphone = context.createMediaStreamSource(e);
-
-          // const meter = createAudioMeter(context)
-
-          // console.log(meter);
+      // if (navigator.getUserMedia) {
+      //   navigator.getUserMedia({ audio: true },function(e){ 
 
 
-          // microphone -> filter -> destination.
-          that.microphone.connect(filter);
-          filter.connect(context.destination);
+      // const filter = context.createBiquadFilter();
+      // that.microphone = context.createMediaStreamSource(e);
 
-          // console.log(that.microphone);
+      // const meter = createAudioMeter(context)
 
-        }, function (e) {
-          alert('Error capturing audio.');
-        });
-      } else {
-        alert('getUserMedia not supported in this browser.');
-      }
+      // console.log(meter);
+
+
+      // microphone -> filter -> destination.
+      // that.microphone.connect(filter);
+      // filter.connect(context.destination);
+
+      // console.log(that.microphone);
+
+
+      // }, function (e) {
+      //     alert('Error capturing audio.');
+      //   });
+      // } else {
+      //   alert('getUserMedia not supported in this browser.');
+      // }
+
 
       this.intervalHandle = setInterval(function () {
 
