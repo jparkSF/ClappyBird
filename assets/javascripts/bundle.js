@@ -70,6 +70,11 @@
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.game = undefined;
+
 var _board = __webpack_require__(1);
 
 var _board2 = _interopRequireDefault(_board);
@@ -83,12 +88,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var board = new _board2.default();
 var bird = new _bird2.default();
 
-var backgroundLoop = function backgroundLoop() {
+var game = exports.game = function game() {
   board.setup();
   bird.setup();
 };
 
-backgroundLoop();
+game();
 
 /***/ }),
 /* 1 */
@@ -110,6 +115,8 @@ var _pipe2 = _interopRequireDefault(_pipe);
 var _p5Sound = __webpack_require__(4);
 
 var _p5Sound2 = _interopRequireDefault(_p5Sound);
+
+var _clappybird = __webpack_require__(0);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -155,14 +162,20 @@ var Board = function () {
       this.intervalHandle = null;
       this.init = null;
 
+      this.score = 1;
+
       this.intervalHandle = setInterval(function () {
         var pipe = new _pipe2.default(that.dX);
 
         that.pipes.push(pipe);
         // console.log(that.pipes[0])
         if (that.pipes[0].x <= -40) {
+
           that.pipes.shift();
+
+          that.score += 1;
         }
+
         // console.log('# of elements in pipes array: ',that.pipes.length);
       }, this.frequency);
 
@@ -219,12 +232,32 @@ var Board = function () {
       this.ctx.drawImage(this.background, 0, 229, 117, 100, this.canvas.width / 2 - 75, this.canvas.height / 2 + 50, 150, 150);
       var that = this;
 
-      document.addEventListener('keypress', function (e) {
+      document.addEventListener('keypress', function initWithKey(e) {
+        // 's' on key
         if (e.which === 115) {
           that.dX = 3;
           that.loop();
         }
       });
+      document.addEventListener('keypress', function initWithKey(e) {
+        // 's' on key
+        if (e.which === 61) {
+          that.dX = 5;
+          this.negativeG = -25;
+          this.gravity = 0.7;
+          this.frequency = 2000;
+          that.loop();
+        }
+      });
+
+      // document.removeEventListener('keypress', initWithKey);
+
+      // document.addEventListener('touchstart', function init(){
+      //   e.preventDefault();
+      //   that.dX = 3;
+      //   that.loop();
+      // })
+
     }
   }, {
     key: 'updatePosition',
@@ -286,6 +319,9 @@ var Board = function () {
     key: 'handleCollision',
     value: function handleCollision() {
       this.ctx.drawImage(this.background, 118, 273, 190, 36, this.canvas.width / 2 - 130, this.canvas.height / 2 - 40, 260, 80);
+      this.ctx.font = "30px Arial";
+      this.ctx.fillText('Score: ' + this.score, 10, 50);
+      //  this.setup();
     }
   }, {
     key: 'render',

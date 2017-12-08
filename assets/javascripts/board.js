@@ -1,5 +1,6 @@
 import Pipe from './pipe';
-import P5Lib from './p5/p5.sound.js';
+import P5Sound from './p5/p5.sound.js';
+import {game} from './clappybird';
 
 class Board {
   setup() {
@@ -32,6 +33,12 @@ class Board {
     this.collided = false;
     this.intervalHandle = null;
     this.init = null;
+
+    this.score = 1;
+
+
+    
+    
     
     
     this.intervalHandle = setInterval(function(){
@@ -41,8 +48,17 @@ class Board {
       that.pipes.push(pipe);
       // console.log(that.pipes[0])
       if (that.pipes[0].x <= -40){
+        
         that.pipes.shift();
+  
+        that.score += 1;
+
+        
       }
+
+     
+
+      
       // console.log('# of elements in pipes array: ',that.pipes.length);
     },this.frequency)
   
@@ -107,13 +123,34 @@ class Board {
     this.ctx.drawImage(this.background, 0, 229, 117, 100, this.canvas.width / 2 - 75, this.canvas.height / 2 + 50, 150, 150);
     const that = this;
     
-      document.addEventListener('keypress', e => {
+      document.addEventListener('keypress',function initWithKey(e){
+        // 's' on key
         if (e.which === 115){
           that.dX = 3;
           that.loop();
         }
+      });
+    document.addEventListener('keypress', function initWithKey(e) {
+      // 's' on key
+      if (e.which === 61) {
+        that.dX = 5;
+        this.negativeG = -25;
+        this.gravity = 0.7;
+        this.frequency = 2000;
+        that.loop();
+      }
+    });
+  
+      // document.removeEventListener('keypress', initWithKey);
 
-      })
+    // document.addEventListener('touchstart', function init(){
+    //   e.preventDefault();
+    //   that.dX = 3;
+    //   that.loop();
+    // })
+
+
+
       
     
     
@@ -182,6 +219,9 @@ class Board {
 
    handleCollision(){  
      this.ctx.drawImage(this.background, 118, 273 , 190, 36, this.canvas.width/2-130, this.canvas.height/2 - 40, 260,80);
+     this.ctx.font = "30px Arial";
+     this.ctx.fillText(`Score: ${this.score}`, 10, 50);
+    //  this.setup();
    }
 
   render() {
