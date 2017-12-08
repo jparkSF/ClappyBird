@@ -1,5 +1,4 @@
 import Pipe from './pipe';
-import P5Sound from './p5/p5.sound.js';
 import {game} from './clappybird';
 
 class Board {
@@ -36,32 +35,71 @@ class Board {
 
     this.score = 1;
 
+    
+
 
     
-    
-    
+    if (!navigator.getUserMedia) {
+      navigator.getUserMedia = navigator.getUserMedia
+        || navigator.webkitGetUserMedia
+        || navigator.mozGetUserMedia
+        || navigator.msGetUserMedia;
+
+
+    }
+
+    const context = new AudioContext();
+
+    if (navigator.getUserMedia) {
+      navigator.getUserMedia({ audio: true },function(e){ 
+        
+        
+        const filter = context.createBiquadFilter();
+        that.microphone = context.createMediaStreamSource(e);
+
+        // const meter = createAudioMeter(context)
+
+        // console.log(meter);
+        
+
+        // microphone -> filter -> destination.
+        that.microphone.connect(filter);
+        filter.connect(context.destination);
+
+        // console.log(that.microphone);
+
+        
+
+      
+
+    }, function (e) {
+        alert('Error capturing audio.');
+      });
+    } else {
+      alert('getUserMedia not supported in this browser.');
+    }
+
+
+
+
     
     this.intervalHandle = setInterval(function(){
+      
       const pipe = new Pipe(that.dX);
-     
-
       that.pipes.push(pipe);
-      // console.log(that.pipes[0])
-      if (that.pipes[0].x <= -40){
-        
+      
+      if (that.pipes.length >= 4){
         that.pipes.shift();
-  
+        
         that.score += 1;
-
         
       }
-
-     
-
       
       // console.log('# of elements in pipes array: ',that.pipes.length);
     },this.frequency)
   
+
+
 
 
     
@@ -92,7 +130,8 @@ class Board {
   }
 
   loop() {
-  
+    // console.log(this.microphone.context.listener);
+    
     // const vol = this.mic.getLevel();
     // console.log(this.mic);
     // console.log(vol);
@@ -119,8 +158,10 @@ class Board {
     this.bird = document.getElementById('sheet');
     this.ctx.drawImage(this.bird, 311, 230, 37, 24, 50, 200, 45, 30);
     
+    //Title
     this.ctx.drawImage(this.background, 118, 229, 190, 40, this.canvas.width / 2 - 130, this.canvas.height / 2 - 60, 260, 80);
-    this.ctx.drawImage(this.background, 0, 229, 117, 100, this.canvas.width / 2 - 75, this.canvas.height / 2 + 50, 150, 150);
+    //Tap button image
+    // this.ctx.drawImage(this.background, 0, 229, 117, 100, this.canvas.width / 2 - 75, this.canvas.height / 2 + 50, 150, 150);
     const that = this;
     
       document.addEventListener('keypress',function initWithKey(e){

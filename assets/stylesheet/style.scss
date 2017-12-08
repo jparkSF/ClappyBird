@@ -4,6 +4,7 @@ body{
         background-color: #272b30;
         font-family: 'Nunito', sans-serif;
         font-weight: 300;
+        display: flex;
       }
       canvas {
         display: block;
@@ -19,21 +20,25 @@ body{
         display:none;
       }
       .main{
-        width: 80% !important;
+        
         margin: auto;
+        margin-right: 20px;
 
       }
       section{
-           margin-top: 20%;
-    left: 5%;
-    top: -6px;
-    /* margin-right: 44px; */
+          margin: auto;
+          margin-left:30px;
+    margin-top: 20%;
+   
     width: 270px;
     color: #c8c8c8;
     border-radius: 5px;
     background-color: #2e3338;
-    position: absolute;
-    /* z-index: -1; */
+
+    height: 100%;
+    padding-bottom: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
       }
 
       .game-info{
@@ -62,8 +67,17 @@ body{
       ul{
         padding-left: 5px;
       }
-
+      @media screen and (max-width: 750px) {
+         body{
+          display: table-cell;
+        }
+      } 
       @media screen and (max-width: 420px) {
+          body{
+          display: inline-block;
+          margin: auto;
+        }
+
         img{
           display: none;
         }
