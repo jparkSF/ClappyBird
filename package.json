@@ -19,10 +19,8 @@
     "postinstall": "webpack",
     "webpack": "webpack --watch",
     "start": "reload -b"
-    
   },
   "repository": {
-    
     "type": "git",
     "url": "git+https://github.com/jparkSF/ClappyBird.git"
   },
@@ -38,6 +36,10 @@
   },
   "homepage": "https://github.com/jparkSF/ClappyBird#readme",
   "devDependencies": {
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
     "uglify-js-brunch": "^2.10.0"
   },
   "eslintConfig": {

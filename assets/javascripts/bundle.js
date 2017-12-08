@@ -155,6 +155,10 @@ var Board = function () {
         var pipe = new _pipe2.default();
 
         that.pipes.push(pipe);
+        // console.log(that.pipes[0])
+        if (that.pipes[0].x <= -40) {
+          that.pipes.shift();
+        }
         // console.log('# of elements in pipes array: ',that.pipes.length);
       }, this.frequency);
 
@@ -242,12 +246,40 @@ var Board = function () {
     value: function drawPipes() {
       var that = this;
 
+      // const pipe = this.pipes[this.pipes.length - 1];
+
+
+      // pipe.update();
+      // pipe.render(that.ctx);
+
+      // console.log(this.pipes);
+
+
+      // console.log(pipe);
+      // if (pipe !== undefined){
+      //   pipe.update();
+      //   pipe.render(that.ctx);
+      //   if (this.pipes.length > 3) {
+
+      //     that.pipes.shift();
+      //   }
+      // console.log(pipe);
+
+
+      // console.log(pipe);
+      // pipe.update();
+      // pipe.render();
+      // pipe.update();
+      // pipe.render(that.ctx);
+      // console.log(that.pipes);
+
+
       this.pipes.forEach(function (pipe) {
+
         pipe.update();
         pipe.render(that.ctx);
 
         that.checkCollision(pipe);
-
         if (that.collided === true) {
           pipe.dX = 0;
         }
@@ -257,20 +289,20 @@ var Board = function () {
     key: 'checkCollision',
     value: function checkCollision(pipe) {
 
-      // if ((this.birdPosY < 370+pipe.y) && (pipe.x < 95)){
-      //   // this.collided = true;
-      //   console.log('==============')  
-      //   console.log('bird position x: ',95);
-      //     console.log('bird position y: ',this.birdPosY);
-      //   console.log('----------------')
-      //   console.log('pipe position x: ', pipe.x);
-      //     console.log('pipe position y: ',270+pipe.y);
-      //     console.log('==============')
+      if (this.birdPosY < 370 + pipe.y && pipe.x < 95 && pipe.x <= 95 && pipe.x + 40 >= 50 && this.birdPosY < 370 + pipe.y) {
+        this.collided = true;
+      }
+      // console.log('==============')  
+      // console.log('bird position x: ',95);
+      //   console.log('bird position y: ',this.birdPosY);
+      // console.log('----------------')
+      // console.log('pipe position x: ', pipe.x);
+      //   console.log('pipe position y: ',270+pipe.y);
+      //   console.log('==============')
 
-      // } else {
 
-      // }
-      // if ((this.birdPosY+30 > 370-pipe.y+500 ) && (pipe.x < 95)){
+      // if (((this.birdPosY + 30 > 370 + pipe.y) && (pipe.x < 95)) &&
+      //   (pipe.x <= 95 && pipe.x + 40 >= 50 && this.birdPosY < 370 + pipe.y)) {
       //   this.collided = true;
       // }
     }
