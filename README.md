@@ -1,8 +1,11 @@
 # ClappyBird (Javascript Game)
 
-## Wireframe
-![ClappyBrid](https://github.com/jparkSF/screambird/blob/master/wireframes/wireframe.png?raw=true)
+## Wireframes
+![ClappyBrid](https://github.com/jparkSF/ClappyBird/blob/master/assets/images/picture1.png?raw=true)
 
+![ClappyBrid](https://github.com/jparkSF/ClappyBird/blob/master/assets/images/picture2.png?raw=true)
+
+![ClappyBrid](https://github.com/jparkSF/ClappyBird/blob/master/assets/images/picture3.png?raw=true)
 
 ## Game Concept
 ClappyBird is another version of [Flappy Bird](https://www.google.com/search?q=flappy+bird&oq=flappy+bird&aqs=chrome..69i57.5039j0j1&sourceid=chrome&ie=UTF-8).
