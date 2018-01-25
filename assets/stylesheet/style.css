@@ -4,7 +4,9 @@ body {
   background-color: #272b30;
   font-family: 'Nunito', sans-serif;
   font-weight: 300;
-  display: flex; }
+  display: flex;
+  padding-left:125px;
+}
 
 canvas {
   display: block;
@@ -25,8 +27,8 @@ img {
 
 section {
   margin: auto;
-  margin-left: 30px;
-  margin-top: 20%;
+  margin-left: 55px;
+  margin-top: 7%;
   width: 270px;
   color: #c8c8c8;
   border-radius: 5px;
