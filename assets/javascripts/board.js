@@ -188,7 +188,8 @@ class Board {
     //   e.preventDefault();
     //   that.dX = 3;
     //   that.loop();
-    // })
+    // }}
+    
 
   }
 
