@@ -190,7 +190,6 @@ class Board {
     //   that.loop();
     // })
 
-
   }
 
   updatePosition() {
