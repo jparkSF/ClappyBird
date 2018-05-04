@@ -193,7 +193,6 @@ class Board {
 
 
 
-
   }
 
   updatePosition() {
